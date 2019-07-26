@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
-import Forecast from './Forecast'
+import Forecast from './Forecast';
+import OpenWeatherMap from './open_weather_map'
 
 class WeatherProject extends React.Component {
     constructor(props) {
@@ -12,7 +13,12 @@ class WeatherProject extends React.Component {
     }
 
     _handleTextChange = event => {
-        this.setState({ zip: event.nativeEvent.text })
+        let zip = event.nativeEvent.text;
+        this.setState({ zip: zip })
+        OpenWeatherMap.fetchForecast(zip).then(forecast => {
+            console.log(forecast)
+            this.setState({ forecast: forecast })
+        })
     }
 
     render() {
@@ -49,7 +55,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#666666',
     },
     welcome: {
         fontSize: 20,
